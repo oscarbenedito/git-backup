@@ -91,10 +91,10 @@ if 'github.com' in tokens:
         repositories = get_repositories_data_github(url, tokens['github.com'], page)
 
 # custom
-if os.path.exists("custom_directories.json"):
-    custom_file = open('custom_directories.json', 'r')
-    repositories = json.load(custom_file)
-    custom_file.close()
+if os.path.exists('custom_directories.json'):
+    with open('custom_directories.json', 'r') as custom_file:
+        repositories = json.load(custom_file)
+
     for repository in repositories:
         clone_dir = 'repositories/' + repository['host'] + '/' + repository['path']
         print(repository['host'] + '/' + repository['path'])
