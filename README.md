@@ -57,4 +57,4 @@ The program is licensed under the GNU General Public License version 3 (availabl
 
 ## Author
 
-- **Oscar Benedito** - oscar@obenedito.org
+- **Oscar Benedito** - oscar@oscarbenedito.com
