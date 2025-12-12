@@ -22,22 +22,10 @@ import git
 import requests
 
 
-ENV_GITLAB_TOKEN_PATH = "GITLAB_TOKEN_PATH"
-ENV_GITHUB_TOKEN_PATH = "GITHUB_TOKEN_PATH"
+ENV_GITLAB_TOKEN = "GITLAB_TOKEN"
+ENV_GITHUB_TOKEN = "GITHUB_TOKEN"
 ENV_CUSTOM_REPOSITORIES_PATH = "CUSTOM_REPOSITORIES_PATH"
 ENV_TARGET_DIR = "TARGET_DIR"
-
-
-def read_file(env_var):
-    token_path = os.environ.get(env_var)
-    if not token_path:
-        return None
-    try:
-        with open(token_path, "r") as f:
-            return f.read().strip()
-    except FileNotFoundError:
-        print("Error: File {token_path} not found", file=sys.stderr)
-        return None
 
 
 def backup_gitlab(token):
@@ -132,23 +120,13 @@ def main():
     backup_data["time"] = str(datetime.datetime.now())
     backup_data["sites"] = {}
 
-    token_path = os.environ.get(ENV_GITLAB_TOKEN_PATH)
-    if token_path:
-        try:
-            with open(token_path, "r") as f:
-                token = f.read().strip()
-            backup_gitlab(token)
-        except FileNotFoundError:
-            print("Error: File " + token_path + " not found", file=sys.stderr)
+    token = os.environ.get(ENV_GITLAB_TOKEN)
+    if token:
+        backup_gitlab(token)
 
-    token_path = os.environ.get(ENV_GITHUB_TOKEN_PATH)
-    if token_path:
-        try:
-            with open(token_path, "r") as f:
-                token = f.read().strip()
-            backup_github(token)
-        except FileNotFoundError:
-            print("Error: File " + token_path + " not found", file=sys.stderr)
+    token = os.environ.get(ENV_GITHUB_TOKEN)
+    if token:
+        backup_github(token)
 
     custom_repositories_path = os.environ.get(ENV_CUSTOM_REPOSITORIES_PATH)
     if custom_repositories_path:
